@@ -15,6 +15,7 @@ spring:
     username: zj490057768@sina.com
     #·¢ËÍ·½µÄÃÜÂë
     password: zj19940515ZJ
+    #..
     properties:
       mail.smtp.socketFactory.fallback: true
       mail.smtp.starttls.enable: true

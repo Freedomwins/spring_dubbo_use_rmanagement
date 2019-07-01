@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../jquery/jquery-2.1.1.min.js"></script>
+    <script type="application/javascript">
+        function sendEmail() {
+            var address = $("#email").val();
+            $.ajax({
+                type: "GET",
+                url: "/user/sendEmail?address="+address,
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (message) {
+                    console.log(message);
+                },
+                error: function (message) {
+                    console.error(message);
+                }
+            });
+        }
+        
+        $(function () {
+            $("#name").blur(function(){
+                var userName=$("#name").val();
+                if (userName ==""){
+                    $("#msg").html("<span style='color: red'>用户名不能为空</span>");
+                }else {
+                    $.ajax({
+                        type: "GET",
+                        url: "/user/check?userName="+userName,
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (message) {
+                            if (message){
+                                $("#msg").html("<span style='color: red'>用户名重复不可用</span>");
+                            }else{
+                                $("#msg").html("<span style='color :green'>用户名可用</span>");
+                            }
+                            console.log(message);
+                        },
+                        error: function (message) {
+                            console.error(message);
+                        }
+                    });
+                }
+            });
+        })
+
+    </script>
+</head>
+<body>
+<form action="/user/addUser" method="post">
+<table border="1" width="400" style="text-align: left">
+    <tr>
+        <td colspan="2"> <h1>注册页面</h1></td>
+    </tr>
+    <tr>
+        <th>用户名：</th>
+        <th ><input type="text" name="userName" id="name"/><span id="msg"></span></th>
+    </tr>
+    <tr>
+        <th> 密码：</th>
+        <th><input type="text" name="password"/></th>
+    </tr>
+    <tr>
+        <th> 昵称：</th>
+        <th><input type="text" name="nickName"/></th>
+    </tr>
+    <tr>
+        <th> 邮箱：</th>
+        <th><input type="text" name="email" id="email"/><input type="button" value="发送验证码" onclick="sendEmail()">
+        </th>
+    </tr>
+    <tr>
+        <th> 验证码：</th>
+        <th><input type="text" name="code"/></th>
+    </tr>
+    <tr>
+        <th colspan="2"><input type="submit" value="注册"/></th>
+    </tr>
+</table>
+</form>
+</body>
+</html>
